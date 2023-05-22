@@ -62,3 +62,16 @@ def interpolate(image1, image2, num_frames=10):
         interpolated_frames.append(interpolated_frame)
     return interpolated_frames
 
+
+def increase_brightness_contrast(image, brightness=0, contrast=0):
+    # Increase brightness
+    image = cv2.convertScaleAbs(image, alpha=1.0, beta=brightness)
+
+    # Increase contrast
+    if contrast > 0:
+        f = 131 * (contrast + 127) / (127 * (131 - contrast))
+        alpha_c = f
+        gamma_c = 127 * (1 - f)
+        image = cv2.addWeighted(image, alpha_c, image, 0, gamma_c)
+
+    return image
