@@ -61,3 +61,4 @@ def interpolate(image1, image2, num_frames=10):
         interpolated_frame = cv2.addWeighted(image1, interpolation_factor, image2, 1 - interpolation_factor, 0)
         interpolated_frames.append(interpolated_frame)
     return interpolated_frames
+
