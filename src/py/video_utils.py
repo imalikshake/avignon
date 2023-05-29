@@ -46,13 +46,13 @@ def reverse_video(input_path, output_path):
     video.release()
     out.release()
 
-def join_videos(video1_path, video2_path, output_path):
+def join_videos(video1_path, video2_path, output_path, n=10):
     # Open the first video
     video1 = cv2.VideoCapture(video1_path)
     fps1 = video1.get(cv2.CAP_PROP_FPS)
     frame_width1 = int(video1.get(cv2.CAP_PROP_FRAME_WIDTH))
     frame_height1 = int(video1.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
+    frame_count = int(video1.get(cv2.CAP_PROP_FRAME_COUNT))
     # Open the second video
     video2 = cv2.VideoCapture(video2_path)
     fps2 = video2.get(cv2.CAP_PROP_FPS)
@@ -70,18 +70,25 @@ def join_videos(video1_path, video2_path, output_path):
     output_video = cv2.VideoWriter(output_path, fourcc, fps1, (frame_width1, frame_height1))
 
     # Read and write frames from the first video
+  
+    i = 0
     while True:
         ret, frame = video1.read()
         if not ret:
             break
-        output_video.write(frame)
+        i = i+1
+        if i < frame_count - n:
+            output_video.write(frame)
 
     # Read and write frames from the second video
+    j = 0
     while True:
         ret, frame = video2.read()
         if not ret:
             break
-        output_video.write(frame)
+        if j > n:
+            output_video.write(frame)
+        j = j+1
 
     # Release the video objects and writer
     video1.release()

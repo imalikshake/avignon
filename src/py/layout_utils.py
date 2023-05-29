@@ -21,24 +21,6 @@ def put_text_wrap(img, text, org, font, font_scale, color, thickness, line_spaci
         y = org[1] + (i * line_spacing)
         cv2.putText(img, line, (org[0], y), font, font_scale, color, thickness)
 
-def translate_data(csv_path, sep="|"):
-    data_df = df = pd.read_csv(csv_path, sep=sep,)
-    ratios = []
-    for number in data_df["numbers"]:
-        if '%' in number:
-            value = number.replace("%", "")
-            ratio = float(value)/100
-        elif 'jours' in number:
-            ratio = 1.0
-        else:
-            value = int(number)
-            length = len(str(value))
-            max_length = int('9' * length)
-            ratio = value/max_length
-        ratios.append(ratio)
-    data_df["ratio"] = ratios
-    return data_df
-
 def get_coords(digit, rows, cols):
     position = digit % (rows*cols) 
     row = position // cols 
