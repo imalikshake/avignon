@@ -201,6 +201,10 @@ def generate_frames(input_files, joined_df, temp_dir, output_dir, question_segme
             
             # Save the output image
             save_image(output_file, result_image)
+
+            if j == 10:
+                break
+        break
         
 def generate_video(output_files, output_video_path, question_segments=12, frames_per_segment=50, 
                    frames_per_image=3, interpolation_factor=0.5, cvt=None, skip_percentage=0, 
@@ -317,14 +321,14 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Data gen. for theatre.")
-    parser.add_argument("-in", "--input_project_dir", 
+    parser.add_argument("-i", "--input_project_dir", 
                         type=str, help="Input dir path.")
-    parser.add_argument("-out", "--output_project_dir", 
+    parser.add_argument("-o", "--output_project_dir", 
                         type=str, help="Output dir path.")
-    parser.add_argument("-fps", "--frames_per_segment", 
+    parser.add_argument("-f", "--frames_per_segment", 
                         type=int, default=50, 
                         help="Frames per segment.")
-    parser.add_argument("-csv", "--audience_filename", 
+    parser.add_argument("-c", "--audience_filename", 
                         type=str, default="q_and_a_audience.csv",
                         help="CSV for audience data")
 
