@@ -204,9 +204,6 @@ def generate_frames(input_files, joined_df, temp_dir, output_dir, question_segme
             # Save the output image
             save_image(output_file, result_image)
 
-            if j == 10:
-                break
-        break
         
 def generate_video(output_files, output_video_path, question_segments=12, frames_per_segment=50, 
                    frames_per_image=3, interpolation_factor=0.5, cvt=None, skip_percentage=0, 
