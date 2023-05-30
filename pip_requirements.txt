@@ -1,5 +1,0 @@
-opencv-contrib-python==4.7.0.72
-pyobjc-core=9.1.1=py310h44ed3dd_0
-pyobjc-framework-cocoa=9.1.1=py310h44ed3dd_0
-libgfortran=5.0.0=12_2_0_hd922786_31
-art=5.9=pypi_0
