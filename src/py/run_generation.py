@@ -8,7 +8,6 @@ import glob
 import pandas as pd
 from image_utils import load_image, show_image, save_image
 import image_utils as iu
-import time
 from io_utils import read_data, get_dfs, init_folders
 from layout_utils import put_text_wrap, get_coords
 from video_utils import run_ebsynth, join_videos, reverse_video
