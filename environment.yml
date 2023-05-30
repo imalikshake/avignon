@@ -99,7 +99,6 @@ dependencies:
   - libedit=3.1.20191231
   - libev=4.33
   - libffi=3.4.2
-  - libgfortran=5.0.0
   - libgfortran5=12.2.0
   - libgrpc=1.51.1
   - libjpeg-turbo=2.1.5.1
@@ -165,8 +164,6 @@ dependencies:
   - pygments=2.15.1
   - pyjsparser=2.7.1
   - pyjwt=2.6.0
-  - pyobjc-core=9.1.1
-  - pyobjc-framework-cocoa=9.1.1
   - pyopenssl=23.1.1
   - pyparsing=3.0.9
   - pyrsistent=0.19.3
