@@ -248,9 +248,9 @@ def generate_video(output_files, output_video_path, question_segments=12, frames
                                                  1 - interpolation_factor, 0)
 
             # Apply a filter to the interpolated frame
-            filter_n = (1 / 12) * (i + 1)
-            filter_n = max(filter_n, 0.25)
-            interpolated_frame = (filter_n * interpolated_frame.astype(np.float32)).astype(np.uint8)
+            # filter_n = (1 / 12) * (i + 1)
+            # filter_n = max(filter_n, 0.25)
+            # interpolated_frame = (filter_n * interpolated_frame.astype(np.float32)).astype(np.uint8)
 
             # Generate a random number to determine if blurring should be applied
             random_number = random.randint(0, 100)
@@ -292,17 +292,17 @@ def main(args):
 
     question_segments = joined_df['question number'].max()+1
     
-    print("Generating frames...")
-    generate_frames(input_files=input_files,
-                    joined_df=joined_df,
-                    temp_dir=temp_dir,
-                    output_dir=output_dir,
-                    question_segments=question_segments,
-                    frames_per_segment=frames_per_segment)
+    # print("Generating frames...")
+    # generate_frames(input_files=input_files,
+    #                 joined_df=joined_df,
+    #                 temp_dir=temp_dir,
+    #                 output_dir=output_dir,
+    #                 question_segments=question_segments,
+    #                 frames_per_segment=frames_per_segment)
 
-    video_forward_path = os.path.join(output_project_dir, "forward.mp4")
-    video_reverse_path = os.path.join(output_project_dir, "reverse.mp4")
-    video_loop_path = os.path.join(output_project_dir, "loop.mp4")
+    video_forward_path = os.path.join(output_project_dir, "forward_no_light.mp4")
+    video_reverse_path = os.path.join(output_project_dir, "reverse_no_light.mp4")
+    video_loop_path = os.path.join(output_project_dir, "loop_no_light.mp4")
     
     print("Generating video...")
     output_files = read_data(output_dir)
