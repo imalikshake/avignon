@@ -32,8 +32,8 @@ def read_data(input_dir):
     input_files.sort()
     return input_files
 
-def get_dfs(questions_dir, static_filename="static_q_and_a.csv", 
-            audience_filename="q_and_a_audience.csv"):
+def get_dfs(questions_dir, static_filename="static_q_and_a.csv",
+            truth_filename="q_and_a_truth.csv", audience_filename="q_and_a_audience.csv"):
     """
     Load and join dataframes from question files.
 
@@ -49,15 +49,19 @@ def get_dfs(questions_dir, static_filename="static_q_and_a.csv",
     """
     collected_csv_path = os.path.join(questions_dir, audience_filename)
     static_csv_path = os.path.join(questions_dir, static_filename)
+    truth_csv_path = os.path.join(questions_dir, truth_filename)
     collected_df = translate_data(collected_csv_path)
     static_df = translate_data(static_csv_path)
+    truth_df = translate_data(truth_csv_path)
+    collected_df["ratio_diff"] = truth_df["ratio"] - collected_df["ratio"]
+    static_df["ratio_diff"] = 0
     joined_df = pd.concat([collected_df, static_df])
     return joined_df
 
 def translate_data(csv_path, sep="|"):
     """
     Read and translate data from a CSV file.
-
+# 
     Parameters:
     - csv_path: Path to the CSV file.
     - sep: Separator used in the CSV file. Default is "|".
