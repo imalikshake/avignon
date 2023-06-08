@@ -61,7 +61,6 @@ def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2
 
     # Calculate ratio for scaling text size
     r_sum = joined_df['ratio'].sum()
-    print(r_sum)
     r_sum_diff = joined_df['ratio_diff'].sum()
     r_ratio = r_sum / r_truth 
     r_ratio = max(r_ratio, r_min)
