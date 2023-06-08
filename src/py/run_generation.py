@@ -123,7 +123,7 @@ def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2
     return temp_file_path
 
 def generate_frames(input_files, joined_df, temp_dir, output_dir, question_segments=12, 
-                    frames_per_segment=50, starting_segment=0):
+                    frames_per_segment=50, starting_segment=0, sampling_n=1):
     """
     Generate frames based on the input files and dataframes.
 
@@ -150,7 +150,7 @@ def generate_frames(input_files, joined_df, temp_dir, output_dir, question_segme
         # segments.append(i)
         segments = range(0, i+1)
         # Iterate over the frames in the segment
-        for j in range(i * frames_per_segment, (i * frames_per_segment) + frames_per_segment, 1):
+        for j in range(i * frames_per_segment, (i * frames_per_segment) + frames_per_segment, sampling_n):
             # Get the index of the input file
             file_idx = j
             
@@ -236,38 +236,38 @@ def generate_video(output_files, output_video_path, question_segments=12, frames
     do_blur = 0
 
     # Iterate over the question segments
-    for i in range(0, question_segments):
-        # Iterate over the frames in each segment
-        for j in range(i * frames_per_segment, (i + 1) * frames_per_segment):
-            # Load the current frame and the next frame
-            current_frame = load_image(output_files[j], cvt=cvt)
-            next_frame = load_image(output_files[min(len(output_files) - 1, j + 1)], cvt=cvt)
+    for i in range(len(output_files)):
 
-            # Interpolate between the current and next frame
-            interpolated_frame = cv2.addWeighted(current_frame, interpolation_factor, next_frame,
-                                                 1 - interpolation_factor, 0)
+        # Load the current frame and the next frame
+        current_frame = load_image(output_files[i], cvt=cvt)
+        next_frame = load_image(output_files[min(len(output_files) - 1, i + 1)], cvt=cvt)
 
-            if apply_progression:
-            # Apply a filter to the interpolated frame
-                filter_n = (1 / 12) * (i + 1)
-                filter_n = max(filter_n, 0.25)
-                interpolated_frame = (filter_n * interpolated_frame.astype(np.float32)).astype(np.uint8)
+        # Interpolate between the current and next frame
+        interpolated_frame = cv2.addWeighted(current_frame, interpolation_factor, next_frame,
+                                                1 - interpolation_factor, 0)
 
-            # Generate a random number to determine if blurring should be applied
-            random_number = random.randint(0, 100)
-            if random_number < skip_percentage:
-                do_blur = do_blur + 3
+        if apply_progression:
+        # Apply a filter to the interpolated frame
+            j = i // question_segments
+            filter_n = (1 / 12) * (j + 1)
+            filter_n = max(filter_n, 0.25)
+            interpolated_frame = (filter_n * interpolated_frame.astype(np.float32)).astype(np.uint8)
 
-            if do_blur:
-                # Adjust the kernel size based on the desired blur effect
-                kernel_size = (kernel_sizes[min(len(kernel_sizes) - 1, do_blur)],
-                               kernel_sizes[min(len(kernel_sizes) - 1, do_blur)])
-                interpolated_frame = cv2.GaussianBlur(interpolated_frame, kernel_size, 0)
-                do_blur = do_blur - 1
+        # Generate a random number to determine if blurring should be applied
+        random_number = random.randint(0, 100)
+        if random_number < skip_percentage:
+            do_blur = do_blur + 3
 
-            # Write multiple frames from the interpolated frame
-            for _ in range(frames_per_image):
-                output_video.write(interpolated_frame)
+        if do_blur:
+            # Adjust the kernel size based on the desired blur effect
+            kernel_size = (kernel_sizes[min(len(kernel_sizes) - 1, do_blur)],
+                            kernel_sizes[min(len(kernel_sizes) - 1, do_blur)])
+            interpolated_frame = cv2.GaussianBlur(interpolated_frame, kernel_size, 0)
+            do_blur = do_blur - 1
+
+        # Write multiple frames from the interpolated frame
+        for _ in range(frames_per_image):
+            output_video.write(interpolated_frame)
 
     # Release the VideoWriter object
     output_video.release()
@@ -282,6 +282,7 @@ def main(args):
     frames_per_segment = args.frames_per_segment
     audience_filename = args.audience_filename
     starting_segment = args.starting_segment
+    sampling_n = args.sampling_n
     print("Initialising folders...")
     init_folders([output_project_dir, temp_dir, output_dir])
     
@@ -300,7 +301,9 @@ def main(args):
                     output_dir=output_dir,
                     question_segments=question_segments,
                     frames_per_segment=frames_per_segment,
-                    starting_segment=starting_segment)
+                    starting_segment=starting_segment,
+                    sampling_n=sampling_n
+                    )
 
     video_forward_path = os.path.join(output_project_dir, "forward.mp4")
     video_reverse_path = os.path.join(output_project_dir, "reverse.mp4")
@@ -332,9 +335,13 @@ if __name__ == "__main__":
     parser.add_argument("-c", "--audience_filename", 
                         type=str, default="q_and_a_audience.csv",
                         help="CSV for audience data")
-    parser.add_argument("-n", "--starting_segment", 
+    parser.add_argument("-n", "--starting_segment",
                         type=int, default=0,
-                        help="Starting segment for decoding.")
+                        help="Starting segment for decoding.")    
+    parser.add_argument("-s", "--sampling_n", 
+                        type=int, default=1,
+                        help="Sampling number for frames.")    
+    parser.add_argument
 
     args = parser.parse_args()
 
