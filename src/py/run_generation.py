@@ -20,7 +20,7 @@ sys.path.append('.')
 
 
 def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2, fsize_max=20, 
-              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.91, r_min=0.5, r_max=1.5, 
+              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.91, r_min=0.72, r_max=1.5, 
               show=False):
     """
     Generate the style image for the given input file.
@@ -65,7 +65,6 @@ def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2
     r_ratio = r_sum / r_truth 
     r_ratio = max(r_ratio, r_min)
     r_ratio = min(r_ratio, r_max)
-    
     # Iterate over each segment
     for segment in segments:
         seg_joined_df = joined_df[joined_df['question number'] == segment]
@@ -81,7 +80,6 @@ def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2
         for index, row in seg_joined_df.iterrows():
             text = row['question'].replace("sex", '')
             ratio = max(row['ratio'], 1e-5)
-            print("ratio", ratio)
             put_text_wrap(img=blank_image, 
                           text=text, 
                           org=(adj_x, adj_y-300),  

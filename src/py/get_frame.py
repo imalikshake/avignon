@@ -25,7 +25,7 @@ def generate_time_id():
     return time_id
 
 def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2, fsize_max=20, 
-              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.91, r_min=0.65, r_max=1.5, 
+              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.91, r_min=0.72, r_max=1.5, 
               show=False):
     """
     Generate the style image for the given input file.
