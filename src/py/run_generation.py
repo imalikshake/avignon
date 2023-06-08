@@ -286,6 +286,14 @@ def main(args):
     print("Initialising folders...")
     init_folders([output_project_dir, temp_dir, output_dir])
     
+    print("Delete old PNGs...")
+    png_files = [file for file in os.listdir(output_dir) if file.endswith(".png")]
+
+    for file_name in png_files:
+        file_path = os.path.join(output_dir, file_name)
+        os.remove(file_path)
+
+    init_folders([output_project_dir, temp_dir, output_dir])
     print("Initialising data...")
     input_files = read_data(input_dir)
     joined_df = get_dfs(questions_dir, 
