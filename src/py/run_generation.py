@@ -20,7 +20,7 @@ sys.path.append('.')
 
 
 def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2, fsize_max=20, 
-              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.91, r_min=0.72, r_max=1.5, 
+              fsize_min=3, fstroke_max=40, colour_max=140, r_truth=7.19, r_min=0.72, r_max=1.5, 
               show=False):
     """
     Generate the style image for the given input file.
@@ -61,6 +61,7 @@ def get_style(input_file, out_dir, segments, joined_df, grid_rows=6, grid_cols=2
 
     # Calculate ratio for scaling text size
     r_sum = joined_df['ratio'].sum()
+    print(r_sum)
     r_sum_diff = joined_df['ratio_diff'].sum()
     r_ratio = r_sum / r_truth 
     r_ratio = max(r_ratio, r_min)
