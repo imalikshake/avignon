@@ -323,13 +323,13 @@ def main(args):
                    question_segments=question_segments, 
                    frames_per_segment=frames_per_segment)
     
-    print("Reversing video...")
-    reverse_video(video_forward_path, video_reverse_path)
+    # print("Reversing video...")
+    # reverse_video(video_forward_path, video_reverse_path)
     
-    print("Looping video...")
-    join_videos(video_forward_path, video_reverse_path, video_loop_path)
+    # print("Looping video...")
+    # join_videos(video_forward_path, video_reverse_path, video_loop_path)
     
-    print("Done!")
+    # print("Done!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Data gen. for theatre.")
